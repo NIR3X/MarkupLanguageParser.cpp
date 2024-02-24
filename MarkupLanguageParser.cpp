@@ -10,14 +10,13 @@ NSMarkupLanguageParser::CElement::CElement(
 }
 
 std::vector<std::shared_ptr<CElement>> NSMarkupLanguageParser::Parse(const std::string& input) {
-	size_t inputLen = input.length();
 	std::vector<std::shared_ptr<CElement>> roots = {};
 	std::shared_ptr<CElement> root = nullptr, current = nullptr;
 
 	EState state = EState::Default;
 	std::string tagName, textContent, attributeName, attributeValue;
 	std::unordered_map<std::string, std::string> attributes = {};
-	
+
 	auto openTagParsed = [&] {
 		if (current) {
 			auto newElement = std::make_shared<CElement>(tagName, attributes, current);
@@ -38,8 +37,7 @@ std::vector<std::shared_ptr<CElement>> NSMarkupLanguageParser::Parse(const std::
 		attributes[attributeName] = attributeValue;
 	};
 
-	for (size_t i = 0; i < inputLen; ++i) {
-		char c = input[i];
+	for (char c : input) {
 		switch (state) {
 		case EState::ParsingTagName:
 			switch (c) {
