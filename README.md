@@ -23,9 +23,7 @@ make
 To use the markup language parser, include the `MarkupLanguageParser.h` header file in your C++ project. Then, call the `Parse` function, passing the markup language input as a string. This function will return a vector of shared pointers to `CElement` objects, representing the root elements of the parsed tree.
 
 ```cpp
-
 #include "MarkupLanguageParser.h"
-#include <iostream>
 
 int main() {
 	std::string input = "<root><person><name>John Doe</name><age>30</age></person></root>";
