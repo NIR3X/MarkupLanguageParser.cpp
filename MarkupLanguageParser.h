@@ -8,10 +8,10 @@
 namespace NSMarkupLanguageParser {
 	class CElement {
 	public:
-		std::string TagName, TextContent;
-		std::unordered_map<std::string, std::string> Attributes;
-		std::weak_ptr<CElement> Parent;
-		std::vector<std::shared_ptr<CElement>> Children;
+		std::string tagName, textContent;
+		std::unordered_map<std::string, std::string> attributes;
+		std::weak_ptr<CElement> parent;
+		std::vector<std::shared_ptr<CElement>> children;
 
 		CElement(
 			const std::string& tagName,

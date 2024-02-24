@@ -6,7 +6,7 @@ NSMarkupLanguageParser::CElement::CElement(
 	const std::string& tagName,
 	const std::unordered_map<std::string, std::string>& attributes,
 	const std::shared_ptr<CElement>& parent
-) : TagName(tagName), TextContent({}), Attributes(attributes), Parent(parent), Children({}) {
+) : tagName(tagName), textContent({}), attributes(attributes), parent(parent), children({}) {
 }
 
 std::vector<std::shared_ptr<CElement>> NSMarkupLanguageParser::Parse(const std::string& input) {
@@ -21,7 +21,7 @@ std::vector<std::shared_ptr<CElement>> NSMarkupLanguageParser::Parse(const std::
 	auto openTagParsed = [&] {
 		if (current) {
 			auto newElement = std::make_shared<CElement>(tagName, attributes, current);
-			current->Children.push_back(newElement);
+			current->children.push_back(newElement);
 			current = newElement;
 		} else {
 			root = std::make_shared<CElement>(tagName, attributes);
@@ -31,7 +31,7 @@ std::vector<std::shared_ptr<CElement>> NSMarkupLanguageParser::Parse(const std::
 		attributes = {};
 	};
 	auto closeTagParsed = [&] {
-		current = current->Parent.lock();
+		current = current->parent.lock();
 		attributes = {};
 	};
 	auto attributeValueParsed = [&] {
@@ -100,7 +100,7 @@ std::vector<std::shared_ptr<CElement>> NSMarkupLanguageParser::Parse(const std::
 		default:
 			if (c == '<') {
 				if (current) {
-					current->TextContent += textContent;
+					current->textContent += textContent;
 				}
 				tagName = {};
 				textContent = {};

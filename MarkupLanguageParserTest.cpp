@@ -19,58 +19,58 @@ int main() {
 	assert(roots.size() == 2);
 	
 	auto current = roots[0];
-	assert(current->TagName == "root");
-	assert(current->Attributes["hello"] == "world");
-	assert(current->Children.size() == 2);
+	assert(current->tagName == "root");
+	assert(current->attributes["hello"] == "world");
+	assert(current->children.size() == 2);
 
-	current = current->Children[0];
-	assert(current->TagName == "person");
-	assert(current->Children.size() == 2);
+	current = current->children[0];
+	assert(current->tagName == "person");
+	assert(current->children.size() == 2);
 
-	current = current->Children[0];
-	assert(current->TagName == "name");
-	assert(current->TextContent == "John Doe");
+	current = current->children[0];
+	assert(current->tagName == "name");
+	assert(current->textContent == "John Doe");
 
-	current = current->Parent.lock();
+	current = current->parent.lock();
 	assert(current != nullptr);
-	assert(current->TagName == "person");
-	assert(current->Children.size() == 2);
+	assert(current->tagName == "person");
+	assert(current->children.size() == 2);
 
-	current = current->Children[1];
-	assert(current->TagName == "age");
-	assert(current->TextContent == "30");
+	current = current->children[1];
+	assert(current->tagName == "age");
+	assert(current->textContent == "30");
 
-	current = current->Parent.lock();
+	current = current->parent.lock();
 	assert(current != nullptr);
-	assert(current->TagName == "person");
-	assert(current->Children.size() == 2);
+	assert(current->tagName == "person");
+	assert(current->children.size() == 2);
 
-	current = current->Parent.lock();
+	current = current->parent.lock();
 	assert(current != nullptr);
-	assert(current->TagName == "root");
-	assert(current->Children.size() == 2);
+	assert(current->tagName == "root");
+	assert(current->children.size() == 2);
 
-	current = current->Children[1];
-	assert(current->TagName == "person");
-	assert(current->Children.size() == 2);
+	current = current->children[1];
+	assert(current->tagName == "person");
+	assert(current->children.size() == 2);
 
-	current = current->Children[0];
-	assert(current->TagName == "name");
-	assert(current->TextContent == "Jane Smith");
+	current = current->children[0];
+	assert(current->tagName == "name");
+	assert(current->textContent == "Jane Smith");
 
-	current = current->Parent.lock();
+	current = current->parent.lock();
 	assert(current != nullptr);
-	assert(current->TagName == "person");
-	assert(current->Children.size() == 2);
+	assert(current->tagName == "person");
+	assert(current->children.size() == 2);
 
-	current = current->Children[1];
-	assert(current->TagName == "age");
-	assert(current->TextContent == "25");
+	current = current->children[1];
+	assert(current->tagName == "age");
+	assert(current->textContent == "25");
 
 	current = roots[1];
-	assert(current->TagName == "root");
-	assert(current->Children.size() == 0);
-	assert(current->TextContent.empty());
+	assert(current->tagName == "root");
+	assert(current->children.size() == 0);
+	assert(current->textContent.empty());
 
 	std::cout << "PASS" << std::endl;
 }
