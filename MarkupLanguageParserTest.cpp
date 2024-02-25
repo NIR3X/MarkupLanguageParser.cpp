@@ -20,6 +20,7 @@ int main() {
 	
 	auto current = roots[0];
 	assert(current->tagName == "root");
+	assert(current->attributes.size() == 4);
 	assert(current->attributes["hello"] == "world");
 	assert(current->attributes["disabled"].empty());
 	assert(current->attributes["test"].empty());
