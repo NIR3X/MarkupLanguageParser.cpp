@@ -3,7 +3,7 @@
 #include <iostream>
 
 int main() {
-	std::string input = R"(<root hello="world">
+	std::string input = R"(<root hello="world" disabled test a="b">
 	<person>
 		<name>John Doe</name>
 		<age>30</age>
@@ -21,6 +21,9 @@ int main() {
 	auto current = roots[0];
 	assert(current->tagName == "root");
 	assert(current->attributes["hello"] == "world");
+	assert(current->attributes["disabled"].empty());
+	assert(current->attributes["test"].empty());
+	assert(current->attributes["a"] == "b");
 	assert(current->children.size() == 2);
 
 	current = current->children[0];

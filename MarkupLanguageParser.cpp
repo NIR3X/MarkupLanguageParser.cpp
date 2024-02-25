@@ -1,4 +1,5 @@
 #include "MarkupLanguageParser.h"
+#include <iostream>
 
 using namespace NSMarkupLanguageParser;
 
@@ -30,16 +31,26 @@ std::vector<std::shared_ptr<CElement>> NSMarkupLanguageParser::Parse(const std::
 		attributes = {};
 	};
 	auto closeTagParsed = [&] {
-		current = current->parent.lock();
+		if (current) {
+			current = current->parent.lock();
+		}
 		attributes = {};
 	};
 	auto attributeValueParsed = [&] {
 		attributes[attributeName] = attributeValue;
+		attributeName = {};
+		attributeValue = {};
 	};
 
 	for (char c : input) {
 		switch (state) {
 		case EState::ParsingTagName:
+			if (tagName.starts_with('!')) {
+				if (c == '>') {
+					state = EState::Default;
+				}
+				continue;
+			}
 			switch (c) {
 			case '>':
 				if (tagName.starts_with('/')) {
@@ -62,6 +73,9 @@ std::vector<std::shared_ptr<CElement>> NSMarkupLanguageParser::Parse(const std::
 		case EState::ParsingAttributeName:
 			switch (c) {
 			case '>':
+				if (!attributeName.empty()) {
+					attributeValueParsed();
+				}
 				if (tagName.starts_with('/')) {
 					closeTagParsed();
 				} else {
@@ -76,6 +90,9 @@ std::vector<std::shared_ptr<CElement>> NSMarkupLanguageParser::Parse(const std::
 			case '\t':
 			case '\r':
 			case '\n':
+				if (!attributeName.empty()) {
+					attributeValueParsed();
+				}
 				continue;
 			}
 			attributeName += c;
